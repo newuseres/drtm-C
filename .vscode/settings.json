@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "compare": "cpp",
+        "cstdint": "cpp",
+        "new": "cpp",
+        "utility": "cpp",
+        "iostream": "cpp",
+        "atomic": "cpp",
+        "*.tcc": "cpp",
+        "vector": "cpp"
+    }
+}
