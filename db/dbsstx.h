@@ -82,7 +82,7 @@ typedef struct rwset_item{
 struct pair_int_uint64t{
   int first;
   uint64_t second;
-}
+};
 int compare_pair_int_uint64t(const pair_int_uint64t a, const pair_int_uint64t b) {
   if(a.first!=b.first) a.first < b.first;
   return a.second < b.second;

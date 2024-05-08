@@ -36,34 +36,34 @@
 
 
 
-  bool EXPIRED(uint64_t lease_time) {
+  char EXPIRED(uint64_t lease_time) {
     if (lease_time == 0)
-      return true;
+      return 1;
     else if (lease_time == UINT_MAX)
-      return false;
+      return 0;
     else
       return timestamp > lease_time + DELTA;
   }
 
 
-  bool VALID(uint64_t lease_time) {
+  char VALID(uint64_t lease_time) {
     if (lease_time == 0)
-      return false;
+      return 0;
     else if (lease_time == UINT_MAX)
-      return true;
+      return 1;
     else
       return timestamp < lease_time - DELTA;
   }
 
-  bool _rw_item_cmp(DBSSTX::rwset_item a,DBSSTX::rwset_item b ) {
+  char _rw_item_cmp(DBSSTX::rwset_item a,DBSSTX::rwset_item b ) {
     if(a.tableid < b.tableid) {
-      return true;
+      return 1;
     }else if(a.tableid == b.tableid)
       return a.key < b.key;
-    return false;
+    return 0;
   }
 
-  DBSSTX_new(RAWTables* store,RdmaResource *r,int t_id)
+  DBSSTX* DBSSTX_new(RAWTables* store,RdmaResource *r,int t_id)
   {
     DBSSTX* dbsstx = (DBSSTX*)malloc(sizeof(DBSSTX));
     dbsstx->txdb_ = store;
@@ -83,10 +83,12 @@
     return dbsstx;
   }
 
-  DBSSTX::DBSSTX(RAWTables* store)
+  DBSSTX* DBSSTX_new(RAWTables* store)
   {
-    txdb_ = store;
-    lastsn = txdb_->ssman_->GetLocalSS();
+    DBSSTX* dbsstx = (DBSSTX*)malloc(sizeof(DBSSTX));
+    dbsstx->txdb_ = store;
+    dbsstx->lastsn = GetLocalSS(txdb_->ssman_);
+    return dbsstx;
   }
 
 
